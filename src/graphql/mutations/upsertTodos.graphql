@@ -1,0 +1,5 @@
+mutation upsertTodos($upsertTodoInputs: [UpsertTodoInput!]!) {
+  upsertTodos(input: { upsertTodoInputs: $upsertTodoInputs }) {
+    _
+  }
+}
