@@ -5,7 +5,7 @@ import { UserContext } from '../userContext';
 import { setToken } from '../token';
 
 export const Login: React.FC = () => {
-  const [_, setUser] = useContext(UserContext);
+  const [, setUser] = useContext(UserContext);
 
   return (
     <Formik
@@ -22,9 +22,9 @@ export const Login: React.FC = () => {
       }}
       onSubmit={(values, { setSubmitting }) => {
         sdk.loginUser(values).then(data => {
-          setUser(data.loginUser.user);
-          setToken(data.loginUser.accessToken);
           setSubmitting(false);
+          setToken(data.loginUser.accessToken);
+          setUser(data.loginUser.user);
         });
       }}
     >

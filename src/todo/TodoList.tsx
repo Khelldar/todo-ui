@@ -10,7 +10,7 @@ export const TodoList: React.FC<Props> = props => {
   return (
     <ul>
       {todos.map(todo => (
-        <TodoDisplay todo={todo}></TodoDisplay>
+        <TodoDisplay key={todo.id} todo={todo}></TodoDisplay>
       ))}
     </ul>
   );

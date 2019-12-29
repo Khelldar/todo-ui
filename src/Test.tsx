@@ -12,7 +12,7 @@ export const TestComponent: React.FC = () => {
     sdk.test().then(data => {
       setTest(data.test);
     });
-  }, [sdk]);
+  }, []);
 
   if (!test) {
     return <div>loading...</div>;
