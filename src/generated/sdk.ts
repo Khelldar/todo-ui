@@ -40,10 +40,21 @@ export type LoginUserOutput = {
   accessToken: Scalars['String'],
 };
 
+export type LoginWithGoogleInput = {
+  code: Scalars['String'],
+};
+
+export type LoginWithGoogleOutput = {
+   __typename?: 'LoginWithGoogleOutput',
+  user: User,
+  accessToken: Scalars['String'],
+};
+
 export type Mutation = {
    __typename?: 'Mutation',
   createUser: CreateUserOutput,
   loginUser: LoginUserOutput,
+  loginWithGoogle: LoginWithGoogleOutput,
   upsertTodos: UpsertTodosOutput,
 };
 
@@ -55,6 +66,11 @@ export type MutationCreateUserArgs = {
 
 export type MutationLoginUserArgs = {
   input: LoginUserInput
+};
+
+
+export type MutationLoginWithGoogleArgs = {
+  input: LoginWithGoogleInput
 };
 
 
@@ -122,6 +138,23 @@ export type LoginUserMutation = (
   ) }
 );
 
+export type LoginWithGoogleMutationVariables = {
+  code: Scalars['String']
+};
+
+
+export type LoginWithGoogleMutation = (
+  { __typename?: 'Mutation' }
+  & { loginWithGoogle: (
+    { __typename?: 'LoginWithGoogleOutput' }
+    & Pick<LoginWithGoogleOutput, 'accessToken'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'email'>
+    ) }
+  ) }
+);
+
 export type UpsertTodosMutationVariables = {
   upsertTodoInputs: Array<UpsertTodoInput>
 };
@@ -169,6 +202,17 @@ export const LoginUserDocument = gql`
   }
 }
     `;
+export const LoginWithGoogleDocument = gql`
+    mutation loginWithGoogle($code: String!) {
+  loginWithGoogle(input: {code: $code}) {
+    user {
+      id
+      email
+    }
+    accessToken
+  }
+}
+    `;
 export const UpsertTodosDocument = gql`
     mutation upsertTodos($upsertTodoInputs: [UpsertTodoInput!]!) {
   upsertTodos(input: {upsertTodoInputs: $upsertTodoInputs}) {
@@ -197,6 +241,9 @@ export function getSdk(client: GraphQLClient) {
   return {
     loginUser(variables: LoginUserMutationVariables): Promise<LoginUserMutation> {
       return client.request<LoginUserMutation>(print(LoginUserDocument), variables);
+    },
+    loginWithGoogle(variables: LoginWithGoogleMutationVariables): Promise<LoginWithGoogleMutation> {
+      return client.request<LoginWithGoogleMutation>(print(LoginWithGoogleDocument), variables);
     },
     upsertTodos(variables: UpsertTodosMutationVariables): Promise<UpsertTodosMutation> {
       return client.request<UpsertTodosMutation>(print(UpsertTodosDocument), variables);

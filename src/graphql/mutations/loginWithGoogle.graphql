@@ -1,0 +1,9 @@
+mutation loginWithGoogle($code: String!) {
+  loginWithGoogle(input: { code: $code }) {
+    user {
+      id
+      email
+    }
+    accessToken
+  }
+}

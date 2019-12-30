@@ -29,14 +29,37 @@ export const Login: React.FC = () => {
       }}
     >
       {({ isSubmitting }) => (
-        <Form>
-          <Field type="email" name="email" />
-          <ErrorMessage name="email" component="div" />
-          <Field type="password" name="password" />
-          <ErrorMessage name="password" component="div" />
-          <button type="submit" disabled={isSubmitting}>
-            Submit
-          </button>
+        <Form className="form-signin">
+          <div className="form-label-group">
+            <Field
+              className="form-control"
+              id="inputEmail"
+              type="email"
+              name="email"
+              placeholder="email"
+              required
+              autoFocus
+            />
+            <ErrorMessage name="email" component="div" />
+
+            <Field
+              className="form-control"
+              id="inputPassword"
+              type="password"
+              name="password"
+              placeholder="password"
+              required
+            />
+            <ErrorMessage name="password" component="div" />
+
+            <button
+              className="btn btn-lg btn-primary btn-block text-uppercase"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              sign in
+            </button>
+          </div>
         </Form>
       )}
     </Formik>

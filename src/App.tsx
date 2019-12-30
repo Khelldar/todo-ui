@@ -4,6 +4,7 @@ import { UserProvider } from './userContext';
 
 import { TodosPage } from './pages/todos';
 import { LoginPage } from './pages/login';
+import { GoogleOauth } from './google';
 
 const App: React.FC = () => {
   return (
@@ -24,6 +25,9 @@ const App: React.FC = () => {
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
+            <Route path="/oauth/google">
+              <GoogleOauth />
+            </Route>
             <Route path="/todos">
               <TodosPage />
             </Route>
