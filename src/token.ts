@@ -1,9 +1,8 @@
 const TOKEN_KEY = '@todo/x-token';
 
-export let token = '';
+//TODO - get rid of all of this and use cookies
 
 export function setToken(t: string) {
-  token = t;
   localStorage.setItem(TOKEN_KEY, t);
 }
 
