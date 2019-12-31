@@ -11,9 +11,11 @@ export const AppRouter: React.FC = () => {
     <Router>
       <div>
         <Switch>
-          <Route path="/oauth/google">
-            <GoogleOauth />
-          </Route>
+          {state.state !== 'loggedIn' && (
+            <Route path="/oauth/google">
+              <GoogleOauth />
+            </Route>
+          )}
 
           {/* not sure how much sense this makes, but the "index" 
           page changes based on whether the user is logged in */}
