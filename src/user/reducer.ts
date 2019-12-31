@@ -1,5 +1,5 @@
-import { User } from './generated/sdk';
-import { setToken, removeTokenFromStorage } from './token';
+import { User } from '../generated/sdk';
+import { setToken, removeTokenFromStorage } from '../token';
 
 export interface LoggedIn {
   type: 'LoggedIn';

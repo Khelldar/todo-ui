@@ -1,8 +1,10 @@
-import React from 'react';
-import { sdk } from '../graphql/sdk';
+import React, { useContext } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { SdkContext } from '../sdkContext';
 
 export const CreateTodoForm: React.FC = () => {
+  const sdk = useContext(SdkContext);
+
   return (
     <Formik
       initialValues={{ text: '' }}

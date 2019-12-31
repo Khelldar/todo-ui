@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, Context, Dispatch } from 'react';
-import { getTokenFromStorage } from './token';
+import { getTokenFromStorage } from '../token';
 import * as jwt from 'jsonwebtoken';
-import { userReducer, State, Action } from './userReducer';
+import { userReducer, State, Action } from './reducer';
 
 const initialState: State = { state: 'init' };
 

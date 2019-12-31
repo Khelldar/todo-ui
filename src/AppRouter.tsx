@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { TodosPage } from './pages/todos';
 import { LoginPage } from './pages/login';
 import { GoogleOauth } from './google';
-import { UserContext } from './userContext';
+import { UserContext } from './user/userContext';
 
 export const AppRouter: React.FC = () => {
   const [state] = useContext(UserContext);

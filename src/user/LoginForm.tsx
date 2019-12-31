@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
-import { sdk } from '../graphql/sdk';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { UserContext } from '../userContext';
+import { UserContext } from './userContext';
+import { SdkContext } from '../sdkContext';
 
 export const Login: React.FC = () => {
   const [, publish] = useContext(UserContext);
+  const sdk = useContext(SdkContext);
 
   return (
     <Formik

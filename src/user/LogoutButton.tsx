@@ -1,5 +1,5 @@
 import React, { useContext, useCallback } from 'react';
-import { UserContext } from '../userContext';
+import { UserContext } from './userContext';
 
 export const LogoutButton: React.FC = () => {
   const [, dispatch] = useContext(UserContext);
