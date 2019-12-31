@@ -22,9 +22,9 @@ export const LoginPage: React.FC = () => {
               >
                 <i className="fab fa-google mr-2"></i> Sign in with Google
               </a>
-              <button className="btn btn-lg btn-facebook btn-block text-uppercase">
+              {/* <button className="btn btn-lg btn-facebook btn-block text-uppercase">
                 <i className="fab fa-facebook-f mr-2"></i> Sign in with Facebook
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
