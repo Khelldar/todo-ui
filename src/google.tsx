@@ -27,11 +27,15 @@ export const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${st
 
 export const GoogleOauth: React.FC = () => {
   const { code } = queryString.parse(window.location.search);
-  const [, dispatch] = useContext(UserContext);
+  const [state, dispatch] = useContext(UserContext);
   const sdk = useContext(SdkContext);
 
   if (typeof code !== 'string') {
     console.log('bad or missing code!');
+    return <Redirect to="/" />;
+  }
+
+  if (state.state === 'loggedIn') {
     return <Redirect to="/" />;
   }
 
