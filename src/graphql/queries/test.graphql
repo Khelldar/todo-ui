@@ -1,6 +1,0 @@
-query test {
-  test {
-    a
-    b
-  }
-}

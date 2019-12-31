@@ -1,18 +1,21 @@
-import { User } from './generated/sdk';
-import React, { useState, useEffect } from 'react';
-import { getToken, removeToken } from './token';
+import React, { useEffect, useReducer, Context, Dispatch } from 'react';
+import { getTokenFromStorage } from './token';
 import * as jwt from 'jsonwebtoken';
+import { userReducer, State, Action } from './userReducer';
 
-export const UserContext = React.createContext<
-  [User | null, (user: User | null) => void]
->([null, () => {}]);
+const initialState: State = { state: 'init' };
+
+export const UserContext: Context<[State, Dispatch<Action>]> = React.createContext([
+  initialState,
+  (() => {}) as React.Dispatch<Action>,
+]);
 
 export const UserProvider: React.FC = props => {
-  const [user, setUser] = useState<User | null>(null);
-
+  const [state, dispatch] = useReducer(userReducer, initialState);
   useEffect(() => {
-    const token = getToken();
+    const token = getTokenFromStorage();
     if (!token) {
+      dispatch({ type: 'LoggedOut' });
       return;
     }
 
@@ -20,17 +23,18 @@ export const UserProvider: React.FC = props => {
     try {
       const claims = jwt.decode(token) as any;
       if (claims.id && claims.email) {
-        setUser(claims);
+        dispatch({ type: 'LoggedIn', payload: { user: claims, token } });
       }
     } catch (e) {
-      //if there's some error, remove the user/token to get into a fresh state
+      //if there's some error, try to get into a fresh state
       console.log(e);
-      setUser(null);
-      removeToken();
+      dispatch({ type: 'LoggedOut' });
     }
   }, []);
 
   return (
-    <UserContext.Provider value={[user, setUser]}>{props.children}</UserContext.Provider>
+    <UserContext.Provider value={[state, dispatch]}>
+      {props.children}
+    </UserContext.Provider>
   );
 };

@@ -2,10 +2,9 @@ import React, { useContext } from 'react';
 import { sdk } from '../graphql/sdk';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { UserContext } from '../userContext';
-import { setToken } from '../token';
 
 export const Login: React.FC = () => {
-  const [, setUser] = useContext(UserContext);
+  const [, publish] = useContext(UserContext);
 
   return (
     <Formik
@@ -23,8 +22,13 @@ export const Login: React.FC = () => {
       onSubmit={(values, { setSubmitting }) => {
         sdk.loginUser(values).then(data => {
           setSubmitting(false);
-          setToken(data.loginUser.accessToken);
-          setUser(data.loginUser.user);
+          publish({
+            type: 'LoggedIn',
+            payload: {
+              user: data.loginUser.user,
+              token: data.loginUser.accessToken,
+            },
+          });
         });
       }}
     >

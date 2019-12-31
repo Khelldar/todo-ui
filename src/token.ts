@@ -1,12 +1,16 @@
 const TOKEN_KEY = '@todo/x-token';
 
-export function setToken(token: string) {
-  localStorage.setItem(TOKEN_KEY, token);
+export let token = '';
+
+export function setToken(t: string) {
+  token = t;
+  localStorage.setItem(TOKEN_KEY, t);
 }
-export function getToken() {
+
+export function getTokenFromStorage() {
   return localStorage.getItem(TOKEN_KEY);
 }
 
-export function removeToken() {
+export function removeTokenFromStorage() {
   localStorage.removeItem(TOKEN_KEY);
 }

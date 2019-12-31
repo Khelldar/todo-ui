@@ -1,17 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { UserContext } from '../userContext';
-import { Redirect } from 'react-router-dom';
 import { Login } from '../user/LoginForm';
 import { googleLoginUrl } from '../google';
 
 export const LoginPage: React.FC = () => {
-  const [user] = useContext(UserContext);
-
-  if (user) {
-    return <Redirect to="/todos" />;
-  }
-
   return (
     <div className="container">
       <div className="row">

@@ -1,42 +1,13 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+
 import { UserProvider } from './userContext';
+import { AppRouter } from './AppRouter';
 
-import { TodosPage } from './pages/todos';
-import { LoginPage } from './pages/login';
-import { GoogleOauth } from './google';
-
+//not doing much other than setting up some top level context providers
 const App: React.FC = () => {
   return (
     <UserProvider>
-      <Router>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">login</Link>
-              </li>
-              <li>
-                <Link to="/todos">todos</Link>
-              </li>
-            </ul>
-          </nav>
-
-          {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-          <Switch>
-            <Route path="/oauth/google">
-              <GoogleOauth />
-            </Route>
-            <Route path="/todos">
-              <TodosPage />
-            </Route>
-            <Route path="/">
-              <LoginPage />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
+      <AppRouter />
     </UserProvider>
   );
 };
