@@ -33,7 +33,7 @@ export interface State {
 export const userReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'LoggedIn':
-      //setting state outside of react feels pretty wrong, but I want to try it
+      //Erin - setting state outside of react feels pretty wrong. is it?  what's a better way?
       setToken(action.payload.token);
       return {
         state: 'loggedIn',
