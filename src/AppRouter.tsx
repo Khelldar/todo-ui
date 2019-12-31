@@ -10,24 +10,23 @@ export const AppRouter: React.FC = () => {
   return (
     <Router>
       <div>
-        <Switch>
-          {state.state !== 'loggedIn' && (
-            <Route path="/oauth/google">
-              <GoogleOauth />
-            </Route>
-          )}
-
-          {/* not sure how much sense this makes, but the "index" 
-          page changes based on whether the user is logged in */}
-          {state.state === 'loggedIn' && (
+        {state.state === 'loggedIn' && (
+          <Switch>
             <Route path="/">
               <TodosPage />
             </Route>
-          )}
-          <Route path="/">
-            <LoginPage />
-          </Route>
-        </Switch>
+          </Switch>
+        )}
+        {state.state !== 'loggedIn' && (
+          <Switch>
+            <Route path="/oauth/google">
+              <GoogleOauth />
+            </Route>
+            <Route path="/">
+              <LoginPage />
+            </Route>
+          </Switch>
+        )}
       </div>
     </Router>
   );
