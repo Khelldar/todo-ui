@@ -10,23 +10,21 @@ export const AppRouter: React.FC = () => {
   return (
     <Router>
       <div>
-        {state.state === 'loggedIn' && (
-          <Switch>
+        <Switch>
+          <Route path="/oauth/google">
+            <GoogleOauth />
+          </Route>
+
+          {state.state === 'loggedIn' && (
             <Route path="/">
               <TodosPage />
             </Route>
-          </Switch>
-        )}
-        {state.state !== 'loggedIn' && (
-          <Switch>
-            <Route path="/oauth/google">
-              <GoogleOauth />
-            </Route>
-            <Route path="/">
-              <LoginPage />
-            </Route>
-          </Switch>
-        )}
+          )}
+
+          <Route path="/">
+            <LoginPage />
+          </Route>
+        </Switch>
       </div>
     </Router>
   );
