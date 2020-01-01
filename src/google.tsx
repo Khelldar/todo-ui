@@ -4,7 +4,7 @@ import * as queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
 import { UserContext } from './user/userContext';
 import { hostName } from './hostname';
-import { SdkContext } from './sdkContext';
+import { sdk } from './graphql/sdk';
 
 const client_id =
   '41737293779-p142uda4rpgsfgc2uai4446505l2m941.apps.googleusercontent.com';
@@ -28,7 +28,6 @@ export const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${st
 export const GoogleOauth: React.FC = () => {
   const { code } = queryString.parse(window.location.search);
   const [state, dispatch] = useContext(UserContext);
-  const sdk = useContext(SdkContext);
 
   if (typeof code !== 'string') {
     console.log('bad or missing code!');

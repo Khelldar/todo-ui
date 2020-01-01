@@ -3,11 +3,10 @@ import React, { useEffect, useContext } from 'react';
 import { LogoutButton } from '../user/LogoutButton';
 import { TodoList } from '../todo/TodoList';
 import { CreateTodoForm } from '../todo/CreateTodoForm';
-import { SdkContext } from '../sdkContext';
 import { TodosContext } from '../todo/todosContext';
+import { sdk } from '../graphql/sdk';
 
 export const TodosPage: React.FC = () => {
-  const sdk = useContext(SdkContext);
   const [state, publish] = useContext(TodosContext);
 
   useEffect(() => {
@@ -32,7 +31,7 @@ export const TodosPage: React.FC = () => {
           },
         });
       });
-  }, [sdk, publish]);
+  }, [publish]);
 
   return (
     <div>

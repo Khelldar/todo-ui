@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, Context, Dispatch } from 'react';
-import { getTokenFromStorage } from '../token';
+import { getToken } from '../token';
 import * as jwt from 'jsonwebtoken';
 import { userReducer, State, Action } from './reducer';
 
@@ -13,7 +13,7 @@ export const UserContext: Context<[State, Dispatch<Action>]> = React.createConte
 export const UserProvider: React.FC = props => {
   const [state, dispatch] = useReducer(userReducer, initialState);
   useEffect(() => {
-    const token = getTokenFromStorage();
+    const token = getToken();
     if (!token) {
       dispatch({ type: 'LoggedOut' });
       return;

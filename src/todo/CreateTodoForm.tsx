@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { SdkContext } from '../sdkContext';
 import { TodosContext } from './todosContext';
 import uuid from 'uuid';
+import { sdk } from '../graphql/sdk';
 
 export const CreateTodoForm: React.FC = () => {
-  const sdk = useContext(SdkContext);
   const [, publish] = useContext(TodosContext);
 
   return (
