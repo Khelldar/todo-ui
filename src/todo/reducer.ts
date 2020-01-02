@@ -34,7 +34,7 @@ export interface TodoCreateActuallyFailed {
   };
 }
 
-export type Action =
+export type Event =
   | TodosRequested
   | TodosReceived
   | ErrorLoading
@@ -42,38 +42,38 @@ export type Action =
   | TodoCreateActuallyFailed;
 
 export interface State {
-  state: 'init' | 'loading' | 'loaded' | 'error';
+  phase: 'init' | 'loading' | 'loaded' | 'error';
   todos: Todo[];
   errorMessage?: string;
 }
 
-export const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
+export const reducer = (state: State, event: Event): State => {
+  switch (event.type) {
     case 'TodosRequested':
       return {
         ...state,
-        state: 'loading',
+        phase: 'loading',
       };
     case 'TodosReceived':
       return {
-        state: 'loaded',
-        todos: action.payload.todos,
+        phase: 'loaded',
+        todos: event.payload.todos,
       };
     case 'ErrorLoading':
       return {
         ...state,
-        state: 'error',
-        errorMessage: action.payload.message,
+        phase: 'error',
+        errorMessage: event.payload.message,
       };
     case 'TodoCreated':
       return {
         ...state,
-        todos: [...state.todos, action.payload.todo],
+        todos: [...state.todos, event.payload.todo],
       };
     case 'TodoCreateActuallyFailed':
       return {
         ...state,
-        todos: state.todos.filter(todo => todo.id !== action.payload.todo.id),
+        todos: state.todos.filter(todo => todo.id !== event.payload.todo.id),
       };
     default:
       return state;

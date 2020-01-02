@@ -38,9 +38,9 @@ export const TodosPage: React.FC = () => {
       <LogoutButton />
       <hr />
 
-      {state.state === 'loading' && <div>loading...</div>}
-      {state.state === 'loaded' && <TodoList todos={state.todos} />}
-      {state.state === 'error' && <div>{state.errorMessage}</div>}
+      {state.phase === 'loading' && <div>loading...</div>}
+      {state.phase === 'loaded' && <TodoList todos={state.todos} />}
+      {state.phase === 'error' && <div>{state.errorMessage}</div>}
       <hr />
       <CreateTodoForm />
     </div>

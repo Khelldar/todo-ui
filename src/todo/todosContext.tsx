@@ -1,12 +1,12 @@
 import React, { useReducer, Context, Dispatch } from 'react';
 
-import { reducer, State, Action } from './reducer';
+import { reducer, State, Event } from './reducer';
 
-const initialState: State = { state: 'init', todos: [] };
+const initialState: State = { phase: 'init', todos: [] };
 
-export const TodosContext: Context<[State, Dispatch<Action>]> = React.createContext([
+export const TodosContext: Context<[State, Dispatch<Event>]> = React.createContext([
   initialState,
-  (() => {}) as React.Dispatch<Action>,
+  (() => initialState) as React.Dispatch<Event>,
 ]);
 
 export const TodosReducerProvider: React.FC = props => {
