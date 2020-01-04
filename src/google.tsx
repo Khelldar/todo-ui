@@ -34,7 +34,7 @@ export const GoogleOauth: React.FC = () => {
     return <Redirect to="/" />;
   }
 
-  if (state.state === 'loggedIn') {
+  if (state.phase === 'loggedIn') {
     return <Redirect to="/" />;
   }
 
@@ -43,7 +43,6 @@ export const GoogleOauth: React.FC = () => {
       type: 'LoggedIn',
       payload: {
         user: data.loginWithGoogle.user,
-        token: data.loginWithGoogle.accessToken,
       },
     });
   });

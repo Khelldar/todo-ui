@@ -7,6 +7,11 @@ import { UserContext } from './user/userContext';
 
 export const AppRouter: React.FC = () => {
   const [state] = useContext(UserContext);
+
+  if (state.phase === 'init') {
+    return <div>loading...</div>;
+  }
+
   return (
     <Router>
       <div>
@@ -15,7 +20,7 @@ export const AppRouter: React.FC = () => {
             <GoogleOauth />
           </Route>
 
-          {state.state === 'loggedIn' && (
+          {state.phase === 'loggedIn' && (
             <Route path="/">
               <TodosPage />
             </Route>

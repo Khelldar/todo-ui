@@ -26,7 +26,6 @@ export const Login: React.FC = () => {
             type: 'LoggedIn',
             payload: {
               user: data.loginUser.user,
-              token: data.loginUser.accessToken,
             },
           });
         });

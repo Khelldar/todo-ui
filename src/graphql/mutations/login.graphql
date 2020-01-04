@@ -4,6 +4,5 @@ mutation loginUser($email: String!, $password: String!) {
       id
       email
     }
-    accessToken
   }
 }

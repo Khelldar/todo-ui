@@ -37,7 +37,6 @@ export type LoginUserInput = {
 export type LoginUserOutput = {
    __typename?: 'LoginUserOutput',
   user: User,
-  accessToken: Scalars['String'],
 };
 
 export type LoginWithGoogleInput = {
@@ -47,7 +46,6 @@ export type LoginWithGoogleInput = {
 export type LoginWithGoogleOutput = {
    __typename?: 'LoginWithGoogleOutput',
   user: User,
-  accessToken: Scalars['String'],
 };
 
 export type Mutation = {
@@ -55,6 +53,7 @@ export type Mutation = {
   createUser: CreateUserOutput,
   loginUser: LoginUserOutput,
   loginWithGoogle: LoginWithGoogleOutput,
+  logout?: Maybe<Scalars['Boolean']>,
   upsertTodos: UpsertTodosOutput,
 };
 
@@ -80,14 +79,8 @@ export type MutationUpsertTodosArgs = {
 
 export type Query = {
    __typename?: 'Query',
+  self?: Maybe<User>,
   todos: Array<Todo>,
-  test?: Maybe<Test>,
-};
-
-export type Test = {
-   __typename?: 'Test',
-  a?: Maybe<Scalars['String']>,
-  b?: Maybe<Scalars['String']>,
 };
 
 export type Todo = {
@@ -130,7 +123,6 @@ export type LoginUserMutation = (
   { __typename?: 'Mutation' }
   & { loginUser: (
     { __typename?: 'LoginUserOutput' }
-    & Pick<LoginUserOutput, 'accessToken'>
     & { user: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'email'>
@@ -147,12 +139,19 @@ export type LoginWithGoogleMutation = (
   { __typename?: 'Mutation' }
   & { loginWithGoogle: (
     { __typename?: 'LoginWithGoogleOutput' }
-    & Pick<LoginWithGoogleOutput, 'accessToken'>
     & { user: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'email'>
     ) }
   ) }
+);
+
+export type LogoutMutationVariables = {};
+
+
+export type LogoutMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'logout'>
 );
 
 export type UpsertTodosMutationVariables = {
@@ -168,14 +167,14 @@ export type UpsertTodosMutation = (
   ) }
 );
 
-export type TestQueryVariables = {};
+export type SelfQueryVariables = {};
 
 
-export type TestQuery = (
+export type SelfQuery = (
   { __typename?: 'Query' }
-  & { test: Maybe<(
-    { __typename?: 'Test' }
-    & Pick<Test, 'a' | 'b'>
+  & { self: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email'>
   )> }
 );
 
@@ -198,7 +197,6 @@ export const LoginUserDocument = gql`
       id
       email
     }
-    accessToken
   }
 }
     `;
@@ -209,8 +207,12 @@ export const LoginWithGoogleDocument = gql`
       id
       email
     }
-    accessToken
   }
+}
+    `;
+export const LogoutDocument = gql`
+    mutation logout {
+  logout
 }
     `;
 export const UpsertTodosDocument = gql`
@@ -220,11 +222,11 @@ export const UpsertTodosDocument = gql`
   }
 }
     `;
-export const TestDocument = gql`
-    query test {
-  test {
-    a
-    b
+export const SelfDocument = gql`
+    query self {
+  self {
+    id
+    email
   }
 }
     `;
@@ -245,11 +247,14 @@ export function getSdk(client: GraphQLClient) {
     loginWithGoogle(variables: LoginWithGoogleMutationVariables): Promise<LoginWithGoogleMutation> {
       return client.request<LoginWithGoogleMutation>(print(LoginWithGoogleDocument), variables);
     },
+    logout(variables?: LogoutMutationVariables): Promise<LogoutMutation> {
+      return client.request<LogoutMutation>(print(LogoutDocument), variables);
+    },
     upsertTodos(variables: UpsertTodosMutationVariables): Promise<UpsertTodosMutation> {
       return client.request<UpsertTodosMutation>(print(UpsertTodosDocument), variables);
     },
-    test(variables?: TestQueryVariables): Promise<TestQuery> {
-      return client.request<TestQuery>(print(TestDocument), variables);
+    self(variables?: SelfQueryVariables): Promise<SelfQuery> {
+      return client.request<SelfQuery>(print(SelfDocument), variables);
     },
     todos(variables?: TodosQueryVariables): Promise<TodosQuery> {
       return client.request<TodosQuery>(print(TodosDocument), variables);

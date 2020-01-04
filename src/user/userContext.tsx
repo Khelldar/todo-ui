@@ -1,9 +1,8 @@
 import React, { useEffect, useReducer, Context, Dispatch } from 'react';
-import { getToken } from '../token';
-import * as jwt from 'jsonwebtoken';
 import { userReducer, State, Action } from './reducer';
+import { sdk } from '../graphql/sdk';
 
-const initialState: State = { state: 'init' };
+const initialState: State = { phase: 'init' };
 
 export const UserContext: Context<[State, Dispatch<Action>]> = React.createContext([
   initialState,
@@ -13,23 +12,16 @@ export const UserContext: Context<[State, Dispatch<Action>]> = React.createConte
 export const UserProvider: React.FC = props => {
   const [state, dispatch] = useReducer(userReducer, initialState);
   useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      dispatch({ type: 'LoggedOut' });
-      return;
-    }
+    (async () => {
+      const { self: user } = await sdk.self();
 
-    //TODO: better error handling
-    try {
-      const claims = jwt.decode(token) as any;
-      if (claims.id && claims.email) {
-        dispatch({ type: 'LoggedIn', payload: { user: claims, token } });
+      if (!user) {
+        dispatch({ type: 'LoggedOut' });
+        return;
       }
-    } catch (e) {
-      //if there's some error, try to get into a fresh state
-      console.log(e);
-      dispatch({ type: 'LoggedOut' });
-    }
+
+      dispatch({ type: 'LoggedIn', payload: { user } });
+    })();
   }, []);
 
   return (

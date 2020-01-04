@@ -4,6 +4,5 @@ mutation loginWithGoogle($code: String!) {
       id
       email
     }
-    accessToken
   }
 }
