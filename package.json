@@ -59,5 +59,6 @@
     "tabWidth": 2,
     "trailingComma": "es5",
     "printWidth": 90
-  }
+  },
+  "proxy": "https://todo-server-gql.herokuapp.com/graphql"
 }
