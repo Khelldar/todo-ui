@@ -1,62 +1,53 @@
 import React, { useContext } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useForm } from 'react-hook-form';
 import { TodosContext } from './todosContext';
 import uuid from 'uuid';
 import { sdk } from '../graphql/sdk';
 
+interface Form {
+  text: string;
+}
+
 export const CreateTodoForm: React.FC = () => {
   const [, publish] = useContext(TodosContext);
+  const { register, handleSubmit, errors, formState, reset } = useForm<Form>({});
+
+  const onSubmit = handleSubmit(formData => {
+    const todo = {
+      id: uuid.v4(),
+      text: formData.text,
+      completed: false,
+    };
+
+    publish({
+      type: 'TodoCreated',
+      payload: {
+        todo,
+      },
+    });
+    reset();
+    sdk.upsertTodos({ upsertTodoInputs: [todo] }).catch(e => {
+      console.log(e);
+      publish({
+        type: 'TodoCreateActuallyFailed',
+        payload: {
+          todo,
+        },
+      });
+      alert('todo failed to create! check logs for more details');
+    });
+  });
 
   return (
-    <Formik
-      initialValues={{ text: '' }}
-      validate={values => {
-        const errors: Partial<typeof values> = {};
-        if (!values.text) {
-          errors.text = 'Required';
-        }
-        return errors;
-      }}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        const todo = {
-          id: uuid.v4(),
-          text: values.text,
-          completed: false,
-        };
+    <form onSubmit={onSubmit}>
+      <div className="form-group">
+        <input type="text" name="text" ref={register({ required: 'text is required' })} />
+        {errors.text && errors.text.message}
 
-        publish({
-          type: 'TodoCreated',
-          payload: {
-            todo,
-          },
-        });
-        resetForm();
-        sdk
-          .upsertTodos({ upsertTodoInputs: [todo] })
-          .then(() => {
-            setSubmitting(false);
-          })
-          .catch(e => {
-            console.log(e);
-            publish({
-              type: 'TodoCreateActuallyFailed',
-              payload: {
-                todo,
-              },
-            });
-            alert('todo failed to create! check logs for more details');
-          });
-      }}
-    >
-      {({ isSubmitting }) => (
-        <Form>
-          <Field type="text" name="text" />
-          <ErrorMessage name="email" component="div" />
-          <button type="submit" disabled={isSubmitting}>
-            Create Todo
-          </button>
-        </Form>
-      )}
-    </Formik>
+        <button type="submit" disabled={formState.isSubmitting}>
+          Create Todo
+        </button>
+      </div>
+    </form>
   );
 };

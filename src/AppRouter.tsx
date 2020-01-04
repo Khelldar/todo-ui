@@ -16,19 +16,20 @@ export const AppRouter: React.FC = () => {
     <Router>
       <div>
         <Switch>
-          <Route path="/oauth/google">
-            <GoogleOauth />
-          </Route>
-
           {state.phase === 'loggedIn' && (
-            <Route path="/">
+            <Route exact path="/">
               <TodosPage />
             </Route>
           )}
 
-          <Route path="/">
+          <Route exact path="/">
             <LoginPage />
           </Route>
+
+          <Route path="/oauth/google">
+            <GoogleOauth />
+          </Route>
+          <Route render={() => <h1>404</h1>} />
         </Switch>
       </div>
     </Router>
