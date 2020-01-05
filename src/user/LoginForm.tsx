@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
+import { useForm } from 'react-hook-form';
 import { UserContext } from './userContext';
 import { sdk } from '../graphql/sdk';
-import { useForm } from 'react-hook-form';
 
 interface Form {
   email: string;
@@ -19,7 +19,7 @@ export const Login: React.FC = () => {
   });
 
   const onSubmit = handleSubmit(data => {
-    sdk
+    return sdk
       .loginUser(data)
       .then(data => {
         publish({
@@ -30,6 +30,7 @@ export const Login: React.FC = () => {
         });
       })
       .catch(e => {
+        //TODO: conditional check on kind of error
         setError([
           {
             name: 'email',
