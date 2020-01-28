@@ -4,6 +4,7 @@ import { StateContext } from './reducer';
 
 export const Shapes: React.FC = () => {
   const state = useContext(StateContext);
+  // const ids = ['123', '456'];
 
   console.log('shapes render');
   return (

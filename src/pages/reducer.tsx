@@ -48,14 +48,14 @@ const initialState: State = {
       width: 100,
       height: 100,
     },
-    '456': {
-      id: '456',
-      dragging: null,
-      x: 200,
-      y: 200,
-      width: 100,
-      height: 100,
-    },
+    // '456': {
+    //   id: '456',
+    //   dragging: null,
+    //   x: 200,
+    //   y: 200,
+    //   width: 100,
+    //   height: 100,
+    // },
     '789': {
       id: '789',
       dragging: null,
@@ -283,8 +283,6 @@ export const DispatchContext = React.createContext(
 export const ReducerProvider: React.FC = props => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  console.log({ state });
-  // console.log('ReducerProvider render');
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>

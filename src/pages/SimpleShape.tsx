@@ -15,7 +15,11 @@ export const SimpleShape: React.FC<Props> = props => {
   }, [props.id]);
 
   console.log(`SimpleShape render ${props.id}`);
-  return <Rectangle {...props} seed={seed} />;
+  return (
+    <div>
+      <Rectangle {...props} seed={seed} />
+    </div>
+  );
 };
 
 export function hash(s?: string) {
