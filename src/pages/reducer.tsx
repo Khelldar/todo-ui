@@ -35,20 +35,160 @@ export interface TodoCreated {
 export type Event = MouseDown | MouseUp | MouseMove;
 
 export interface State {
-  shape: Shape;
+  shapes: Record<string, Shape>;
 }
 
 const initialState: State = {
-  shape: {
-    dragging: null,
-    x: 15,
-    y: 15,
-    width: 100,
-    height: 100,
+  shapes: {
+    '123': {
+      id: '123',
+      dragging: null,
+      x: 15,
+      y: 15,
+      width: 100,
+      height: 100,
+    },
+    '456': {
+      id: '456',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    '789': {
+      id: '789',
+      dragging: null,
+      x: 400,
+      y: 400,
+      width: 100,
+      height: 100,
+    },
+    '1': {
+      id: '1',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    '2': {
+      id: '2',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    '3': {
+      id: '3',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    '4': {
+      id: '4',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    '5': {
+      id: '5',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    '6': {
+      id: '6',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    '7': {
+      id: '7',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    '9': {
+      id: '9',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    '11': {
+      id: '11',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    '12': {
+      id: '12',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    '13': {
+      id: '13',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    '14': {
+      id: '14',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    asd: {
+      id: 'asd',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    as: {
+      id: 'as',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
+    qw: {
+      id: 'qw',
+      dragging: null,
+      x: 200,
+      y: 200,
+      width: 100,
+      height: 100,
+    },
   },
 };
 
 interface Shape {
+  id: string;
   dragging: null | {
     offsetX: number;
     offsetY: number;
@@ -59,19 +199,23 @@ interface Shape {
   height: number;
 }
 
+function isInside(x: number, y: number, shape: Shape) {
+  return (
+    x > shape.x && x < shape.x + shape.width && y > shape.y && y < shape.y + shape.height
+  );
+}
+
+function objectMap(obj: Object, fn: any) {
+  return Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));
+}
+
 export const reducer = (state: State, event: Event): State => {
   switch (event.type) {
     case 'MouseDown':
       const { x, y } = event.payload;
-      const { shape } = state;
-      if (
-        !(
-          x > shape.x &&
-          x < shape.x + shape.width &&
-          y > shape.y &&
-          y < shape.y + shape.height
-        )
-      ) {
+      const shape = Object.values(state.shapes).find(shape => isInside(x, y, shape));
+
+      if (!shape) {
         return state;
       }
 
@@ -80,32 +224,37 @@ export const reducer = (state: State, event: Event): State => {
 
       return {
         ...state,
-        shape: {
-          ...state.shape,
-          x: x - offsetX,
-          y: y - offsetY,
-          dragging: {
-            offsetX,
-            offsetY,
+        shapes: {
+          ...state.shapes,
+          [shape.id]: {
+            ...shape,
+            x: x - offsetX,
+            y: y - offsetY,
+            dragging: {
+              offsetX,
+              offsetY,
+            },
           },
         },
       };
     case 'MouseUp':
       return {
         ...state,
-        shape: {
-          ...state.shape,
-          dragging: null,
-        },
+        shapes: objectMap(state.shapes, (shape: Shape) => ({ ...shape, dragging: null })),
       };
     case 'MouseMove':
-      if (!state.shape.dragging) return state;
+      const draggingShape = Object.values(state.shapes).find(shape => shape.dragging);
+      if (!draggingShape) return state;
+
       return {
         ...state,
-        shape: {
-          ...state.shape,
-          x: event.payload.x - state.shape.dragging.offsetX,
-          y: event.payload.y - state.shape.dragging.offsetY,
+        shapes: {
+          ...state.shapes,
+          [draggingShape.id]: {
+            ...draggingShape,
+            x: event.payload.x - draggingShape.dragging!.offsetX,
+            y: event.payload.y - draggingShape.dragging!.offsetY,
+          },
         },
       };
     default:
@@ -134,7 +283,8 @@ export const DispatchContext = React.createContext(
 export const ReducerProvider: React.FC = props => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  console.log('ReducerProvider render');
+  console.log({ state });
+  // console.log('ReducerProvider render');
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>

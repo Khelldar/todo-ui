@@ -1,20 +1,21 @@
-import React, { useContext } from 'react';
-import { Rectangle } from 'react-rough';
+import React, { useMemo, useContext } from 'react';
 import { StateContext } from './reducer';
+import { SimpleShape } from './SimpleShape';
+// import { StateContext } from './reducer';
 // import Draggable from 'react-draggable';
 
-export interface Props {}
+export interface Props {
+  id: string;
+  //   x: number;
+  //   y: number;
+  //   width: number;
+  //   height: number;
+}
 
 export const Shape: React.FC<Props> = props => {
   const state = useContext(StateContext);
-  console.log('shape render');
-  return (
-    <Rectangle
-      x={state.shape.x}
-      y={state.shape.y}
-      width={state.shape.width}
-      height={state.shape.height}
-      seed={123}
-    />
-  );
+  const shape = state.shapes[props.id];
+
+  console.log(`shape render ${props.id}`);
+  return <SimpleShape {...shape} />;
 };

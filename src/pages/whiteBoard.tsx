@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import ReactRough from 'react-rough';
-import { Shape } from './shape';
 import { DispatchContext } from './reducer';
+import { Shapes } from './shapes';
 
 export const WhiteBoard: React.FC = () => {
   const dispatch = useContext(DispatchContext);
@@ -59,7 +59,7 @@ export const WhiteBoard: React.FC = () => {
       }}
     >
       <ReactRough renderer="svg" height={1000} width={1000}>
-        <Shape />
+        <Shapes />
       </ReactRough>
     </div>
   );
