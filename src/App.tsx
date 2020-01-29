@@ -1,22 +1,31 @@
 import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import { useSpring, animated } from 'react-spring';
+import { Toggle } from './Toggle';
 
-import { UserProvider } from './user/userContext';
-import { AppRouter } from './AppRouter';
-
-import { TodosReducerProvider } from './todo/todosContext';
-
-//not doing much other than setting up some top level context providers
 const App: React.FC = () => {
+  const fade = useSpring({
+    from: {
+      opacity: 0,
+    },
+    to: {
+      opacity: 1,
+    },
+  });
+
+  console.log(fade);
+
   return (
-    <UserProvider>
-      {/* the TodosReducerProvider should probably live at a lower level you'll probably
-        need to introduce a new level in between the TodoPage and TodoList where the page
-        adds the TodosReducerProvider and then something before the list uses it
-        it's easy enough just to put it at the top level for now. */}
-      <TodosReducerProvider>
-        <AppRouter />
-      </TodosReducerProvider>
-    </UserProvider>
+    <animated.div className="App" style={fade}>
+      <header className="App-header">
+        <img src={logo} className="logo" alt="logo" />
+        <button className="menu-button">Menu</button>
+      </header>
+      <main>
+        <Toggle />
+      </main>
+    </animated.div>
   );
 };
 

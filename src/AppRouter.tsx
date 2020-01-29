@@ -5,6 +5,7 @@ import React, { useContext } from 'react';
 // import { GoogleOauth } from './google';
 import { UserContext } from './user/userContext';
 import { WhiteBoardPage } from './pages/page';
+import { ReactSpringLearning } from './pages/reactSpringLearning';
 
 export const AppRouter: React.FC = () => {
   const [state] = useContext(UserContext);
@@ -13,7 +14,8 @@ export const AppRouter: React.FC = () => {
     return <div>loading...</div>;
   }
 
-  return <WhiteBoardPage />;
+  return <ReactSpringLearning />;
+  // return <WhiteBoardPage />;
 };
 //   return (
 //     <Router>
