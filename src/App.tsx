@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { useSpring, animated } from 'react-spring';
-import { Toggle } from './Toggle';
+import { Board } from './Toggle';
 
 const App: React.FC = () => {
   const fade = useSpring({
@@ -14,8 +14,6 @@ const App: React.FC = () => {
     },
   });
 
-  console.log(fade);
-
   return (
     <animated.div className="App" style={fade}>
       <header className="App-header">
@@ -23,7 +21,7 @@ const App: React.FC = () => {
         <button className="menu-button">Menu</button>
       </header>
       <main>
-        <Toggle />
+        <Board />
       </main>
     </animated.div>
   );
